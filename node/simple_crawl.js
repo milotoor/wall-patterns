@@ -46,6 +46,9 @@ const animate = () => {
 };
 
 // Connect to a Fadecandy server running on the same computer, on the default port
+console.log('Connecting...');
 const socket = new WebSocket('ws://localhost:7890');
-socket.onopen = animate;
-
+socket.on('open', () => {
+    console.log('Connected!');
+    animate();
+});
