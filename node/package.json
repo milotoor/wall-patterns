@@ -1,0 +1,22 @@
+{
+  "name": "wall-patterns",
+  "version": "1.0.0",
+  "description": "Patterns for the 500 LEDs on my bedroom wall.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milotoor/wall-patterns.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/milotoor/wall-patterns/issues"
+  },
+  "homepage": "https://github.com/milotoor/wall-patterns#readme",
+  "dependencies": {
+    "ws": "^5.1.1"
+  }
+}

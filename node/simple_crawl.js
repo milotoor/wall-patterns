@@ -1,4 +1,6 @@
 
+const WebSocket = require('ws');
+
 const NUM_LEDS = 500;
 
 // Set all pixels to a given color
