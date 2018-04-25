@@ -53,3 +53,5 @@ socket.on('open', () => {
     console.log('Connected!');
     animate();
 });
+
+socket.on('error', (e) => console.error(e.toString()));
