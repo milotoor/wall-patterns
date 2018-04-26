@@ -1,14 +1,19 @@
 
+const program = require('commander');
 const WebSocket = require('ws');
-const defaults = require('lodash/defaults');
 const { NUM_LEDS } = require('./constants');
 
 let socket;
 let frame;
 
-const connect = (callback, options = {}) => {
-    const defaultOptions = { host: 'localhost', port: 7890 };
-    const { host, port } = defaults({}, options, defaultOptions);
+const connect = (callback) => {
+    program
+        .version('1.0.0')
+        .option('-h, --host [host]', 'Specify hostname of fadecandy server [localhost]', 'localhost')
+        .option('-p, --port [port]', 'Specify port of fadecandy server [7890]', '7890')
+        .parse(process.argv);
+
+    const { host, port } = program;
 
     // Connect to a Fadecandy server
     console.log('Connecting...');
