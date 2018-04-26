@@ -17,6 +17,10 @@ Any script within the `node` directory is executable. From within the directory 
 
 to run the pattern.
 
+The code makes use of async-await syntax, which is supported by node v7+. You will need to have a
+compatible node version to run the code. If you need to update node to run the patterns, I recommend
+looking into [nvm](https://github.com/creationix/nvm).
+
 ### Options
 Some scripts have options. To see the options for a given script, call it with
 the `--help` option.
