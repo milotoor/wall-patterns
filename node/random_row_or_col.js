@@ -1,10 +1,18 @@
 #!/usr/bin/env node
 
+const program = require('commander');
 const utils = require('./utils');
 const { NUM_COLS, NUM_ROWS } = utils.constants;
 
+program
+    .version('1.0.0')
+    .allowUnknownOption()
+    .option('--erase', 'Erase lines with every loop')
+    .parse(process.argv);
+
+utils.blackout();
 utils.loop(10, async () => {
-    utils.blackout();
+    if (program.erase) utils.blackout();
 
     // Should we iterate a row or a column?
     const iterateAcross = Math.random() > 0.5;

@@ -10,6 +10,7 @@ let socket;
 const connect = () => {
     program
         .version('1.0.0')
+        .allowUnknownOption()
         .option('-h, --host [host]', 'Specify hostname of fadecandy server [localhost]', 'localhost')
         .option('-p, --port [port]', 'Specify port of fadecandy server [7890]', '7890')
         .parse(process.argv);
