@@ -1,11 +1,15 @@
 
 const connection = require('./connection');
-exports.letThereBeLight = connection.letThereBeLight;
+const paint      = require('./paint');
 
 exports.colors    = require('./colors');
 exports.constants = require('./constants');
 exports.iterators = require('./iterators');
-exports.paint     = require('./paint');
+exports.paint     = paint;
+
+// Convenience exports
+exports.blackout        = paint.blackout;
+exports.letThereBeLight = connection.letThereBeLight;
 
 
 /** Initializes the connection, then loops with `callback` every `sleep` ms */
