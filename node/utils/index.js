@@ -5,10 +5,11 @@ const iterators  = require('./iterators');
 const loops      = require('./loops');
 const paint      = require('./paint');
 
-exports.colors    = colors;
-exports.constants = require('./constants');
-exports.iterators = iterators;
-exports.paint     = paint;
+exports.colors     = colors;
+exports.connection = connection;
+exports.constants  = require('./constants');
+exports.iterators  = iterators;
+exports.paint      = paint;
 
 
 /** Creates a new frame and initializes it to all-black */
