@@ -1,10 +1,7 @@
 
 const { getFrame } = require('./connection');
 const { NUM_LEDS, NUM_ROWS } = require('./constants');
-const { iterateGrid } = require('./iterators');
-const { BLACK } = require('./colors');
 
-const blackout = () => iterateGrid((x, y) => paintCoordinate(x, y, BLACK));
 
 /**
  * In the Open Pixel Control protocol (OPC), every pixel requires 3 bytes, one each for the red,
@@ -40,7 +37,6 @@ const paintCoordinate = (x, y, color) => {
 };
 
 module.exports = {
-    blackout,
-    paintIndex,
-    paintCoordinate
+    index     : paintIndex,
+    coordinate: paintCoordinate
 };

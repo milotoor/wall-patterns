@@ -3,10 +3,11 @@ const program = require('commander');
 const WebSocket = require('ws');
 const { NUM_LEDS } = require('./constants');
 
-let socket;
+let _connected = false;
 let frame;
+let socket;
 
-const connect = (callback) => {
+const connect = () => {
     program
         .version('1.0.0')
         .option('-h, --host [host]', 'Specify hostname of fadecandy server [localhost]', 'localhost')
@@ -15,25 +16,34 @@ const connect = (callback) => {
 
     const { host, port } = program;
 
-    // Connect to a Fadecandy server
-    console.log('Connecting...');
-    socket = new WebSocket(`ws://${host}:${port}`);
-    socket.on('open', () => {
-        console.log('Connected!');
-        initializeFrame();
-        callback();
-    });
+    return new Promise((resolve, reject) => {
+        // Connect to a Fadecandy server
+        console.log('Connecting...');
+        socket = new WebSocket(`ws://${host}:${port}`);
+        socket.on('open', () => {
+            console.log('Connected!');
+            _connected = true;
+            resolve();
+        });
 
-    socket.on('error', (e) => console.error(e.toString()));
+        socket.on('error', (e) => {
+            console.error(e.toString());
+            _connected = false;
+            reject();
+        });
+    });
 };
+
+/** Accession methods */
+const connected = () => _connected;
+const getFrame = () => frame;
 
 /** Creates an OPC header. Each pixel requires 3 bytes, and there is a 4-byte header */
 const initializeFrame = () => frame = new Uint8ClampedArray(4 + NUM_LEDS * 3);
 
-const getFrame = () => frame;
 
 /** Sends the current frame */
-const letThereBeLight = () => {
+const send = () => {
     if (socket.readyState !== 1 /* OPEN */) {
         // The server connection isn't open. Nothing to do.
         return;
@@ -52,7 +62,8 @@ const letThereBeLight = () => {
 
 module.exports = {
     connect,
+    connected,
     getFrame,
     initializeFrame,
-    letThereBeLight
+    send
 };
