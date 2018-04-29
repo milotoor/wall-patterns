@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const program = require('commander');
 const range = require('lodash/range');
 const sum = require('lodash/sum');
 
@@ -7,8 +8,18 @@ const utils = require('./utils');
 const { WHITE } = utils.colors;
 const { NUM_ROWS, NUM_COLS } = utils.constants;
 
+program
+    .version('1.0.0')
+    .allowUnknownOption()
+    .option('--initial [initial]', 'Initial percentage of the grid which is alive', 0.5)
+    .parse(process.argv);
+
 // Initialize the grid
-let grid = range(NUM_ROWS).map(() => range(NUM_COLS - 2).map(() => Math.random() > 0.5));
+let grid = range(NUM_ROWS).map(() =>
+    range(NUM_COLS).map(() =>
+        Math.random() < program.initial
+    )
+);
 
 const evolveGrid = () => {
     // Iterate every cell in the grid to determine if it should be alive or dead in the next
@@ -19,9 +30,9 @@ const evolveGrid = () => {
             let row = i;
             let rowBelow = i === 0 ? NUM_ROWS - 1 : i - 1;
 
-            let colRight = j === (NUM_COLS - 3) ? 0 : j + 1;
+            let colRight = j === (NUM_COLS - 1) ? 0 : j + 1;
             let col = j;
-            let colLeft = j === 0 ? NUM_COLS - 3 : j - 1;
+            let colLeft = j === 0 ? NUM_COLS - 1 : j - 1;
 
             // Get the cell's neighbors
             const neighbors = [
