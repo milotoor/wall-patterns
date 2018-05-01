@@ -9,11 +9,11 @@ cd wall-patterns/node
 npm install
 ```
 
-Any script within the `node` directory is executable. From within the directory you can execute
+To execute a pattern, use the `run` script:
 
 ```
-./simple_crawl.js
-``` 
+./utils/run.js simple_crawl
+```
 
 to run the pattern.
 
@@ -32,7 +32,7 @@ probably remain the same). The grid of LEDs is controlled by a Raspberry Pi with
 `grid.local`. So, to remotely run a pattern on the grid, you should execute
 
 ```
-./random_row_or_col.js --host grid.local
+./utils/run.js random_row_or_col --host grid.local
 ``` 
 
 ### Creating Patterns
