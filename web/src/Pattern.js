@@ -1,38 +1,53 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import classNames from 'classnames';
+
+import patternLoader from './patternLoader';
+import { UPDATE_PATTERN } from './store';
 
 
-const patternStyles = {
+const updatePattern = (patternName) => ({
+    type: UPDATE_PATTERN,
+    pattern: patternName
+});
+
+const patternStyles = theme => ({
     pattern: {
         cursor: 'pointer',
         padding: '0.5rem'
+    },
+    selected: {
+        backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.common.white
     }
-};
+});
 
-const Pattern = withStyles(patternStyles)(
+const actionCreators = { updatePattern };
+const Pattern = connect(state => state, actionCreators)(withStyles(patternStyles)(
     class Pattern extends Component {
         static propTypes = {
-            name: PropTypes.string.isRequired,
-            script: PropTypes.string.isRequired
+            pattern: PropTypes.string,
+            name: PropTypes.string.isRequired
         };
 
-        constructor (props) {
-            super(props);
-            this.state = {
-                selected: false
-            };
-        }
+        onClick = () => {
+            this.props.updatePattern(this.props.name);
+            patternLoader();
+        };
 
         render () {
-            const { classes, name } = this.props;
-            const { selected } = this.state;
+            const { classes, pattern, name } = this.props;
+            const patternClasses = classNames(classes.pattern, {
+                [classes.selected]: pattern === name
+            });
 
             return (
-                <Card className={classes.pattern} >
+                <Card className={patternClasses} onClick={this.onClick}>
                     <Typography variant="headline">
                         {name}
                     </Typography>
@@ -40,7 +55,7 @@ const Pattern = withStyles(patternStyles)(
             );
         }
     }
-);
+));
 
 
 const styles = {
@@ -55,9 +70,15 @@ const styles = {
 
 export default withStyles(styles)(
     class Patterns extends Component {
+        state = {
+            selected: null
+        };
+
         static patternOrder = [
             [
-                { name: 'Simple Crawl', script: 'simple_crawl' }
+                'Simple Crawl',
+                'Random Row or Column',
+                'Game of Life'
             ]
         ];
 
@@ -66,10 +87,11 @@ export default withStyles(styles)(
             return (
                 <div className={classes.patterns}>
                     {Patterns.patternOrder.map((patternRow, i) =>
-                        patternRow.map((patternProps, j) =>
+                        patternRow.map((name, j) =>
                             <Pattern
-                              key={patternProps.name}
-                              {...patternProps}
+                              key={name}
+                              name={name}
+                              isSelected={this.state.selected === name}
                             />
                         )
                     )}
