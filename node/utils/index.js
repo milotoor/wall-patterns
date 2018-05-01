@@ -18,6 +18,8 @@ exports.blackout = () => {
     iterators.iterateGrid((x, y) => paint.coordinate(x, y, colors.BLACK));
 };
 
+exports.init = async (options) => await connection.connect(options);
+
 /** Convenience method */
 exports.letThereBeLight = connection.send;
 

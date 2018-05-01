@@ -1,31 +1,29 @@
-#!/usr/bin/env node
 
-const program = require('commander');
 const utils = require('./utils');
 const { NUM_COLS, NUM_ROWS } = utils.constants;
 
-program
-    .version('1.0.0')
-    .allowUnknownOption()
-    .option('--erase', 'Erase lines with every loop')
-    .parse(process.argv);
 
-utils.blackout();
-utils.loop(10, async () => {
-    if (program.erase) utils.blackout();
+module.exports = async ({ erase, ...options }) => {
+    await utils.init(options);
 
-    // Should we iterate a row or a column?
-    const iterateAcross = Math.random() > 0.5;
+    utils.blackout();
+    utils.loop(10, async () => {
 
-    // Which one?
-    const index = Math.floor(Math.random() * (iterateAcross ? NUM_ROWS : NUM_COLS));
-    const color = utils.colors.random();
-    const delay = 10 + Math.floor(Math.random() * 40);
+        if (erase) utils.blackout();
 
-    const loop = iterateAcross ? utils.loopRow : utils.loopCol;
-    await loop(delay, (subIteration) => {
-        const [x, y] = iterateAcross ? [subIteration, index] : [index, subIteration];
-        utils.paint.coordinate(x, y, color);
-        utils.letThereBeLight();
+        // Should we iterate a row or a column?
+        const iterateAcross = Math.random() > 0.5;
+
+        // Which one?
+        const index = Math.floor(Math.random() * (iterateAcross ? NUM_ROWS : NUM_COLS));
+        const color = utils.colors.random();
+        const delay = 10 + Math.floor(Math.random() * 40);
+
+        const loop = iterateAcross ? utils.loopRow : utils.loopCol;
+        await loop(delay, (subIteration) => {
+            const [x, y] = iterateAcross ? [subIteration, index] : [index, subIteration];
+            utils.paint.coordinate(x, y, color);
+            utils.letThereBeLight();
+        });
     });
-});
+};
