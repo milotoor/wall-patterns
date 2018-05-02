@@ -1,7 +1,7 @@
 
-import SimpleCrawl from '../../node/simple_crawl';
-import RandomRowOrColumn from '../../node/random_row_or_col';
-import GameOfLife from '../../node/game_of_life';
+import SimpleCrawl from 'patterns/simple_crawl';
+import RandomRowOrColumn from 'patterns/random_row_or_col';
+import GameOfLife from 'patterns/game_of_life';
 
 import store from './store';
 
@@ -11,11 +11,11 @@ const scripts = {
     'Game of Life'        : GameOfLife
 };
 
-export default (scriptName) => {
+export default () => {
     // Get host and port from state
-    const { host, port } = store.getState();
+    const { host, pattern, port } = store.getState();
 
     // Find and run the script
-    const script = scripts[scriptName];
+    const script = scripts[pattern];
     script({ WebSocket, host, port });
 }
