@@ -10,17 +10,28 @@ const connect = ({ WebSocket, host, port }) => new Promise(
         // Connect to a Fadecandy server
         console.log('Connecting...');
         socket = new WebSocket(`ws://${host}:${port}`);
-        socket.on('open', () => {
+
+        // In the browser we have to use `onopen`, but the `ws` package uses the more node-canonical
+        // `on('open', ...)` style
+        if (typeof socket.on === 'function') {
+            socket.on('open', onOpen);
+            socket.on('error', onError);
+        } else {
+            socket.onopen = onOpen;
+            socket.onerror = onError;
+        }
+
+        function onOpen () {
             console.log('Connected!');
             _connected = true;
             resolve();
-        });
+        }
 
-        socket.on('error', (e) => {
+        function onError (e) {
             console.error(e.toString());
             _connected = false;
             reject();
-        });
+        }
     }
 );
 
