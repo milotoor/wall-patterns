@@ -6,13 +6,13 @@ const utils = require('./utils');
 const { WHITE } = utils.colors;
 const { NUM_ROWS, NUM_COLS } = utils.constants;
 
-module.exports = async ({ initial, ...options }) => {
+module.exports = async (options) => {
     await utils.init(options);
 
     // Initialize the grid
     let grid = range(NUM_ROWS).map(() =>
         range(NUM_COLS).map(() =>
-            Math.random() < initial
+            Math.random() < options.initial
         )
     );
 

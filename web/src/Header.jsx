@@ -40,7 +40,7 @@ const Header = connect(state => state, actionCreators)(
             const { classes, host, port } = this.props;
 
             return (
-                <div className={classes.header}>
+                <div className={classes.HEADER}>
                     <Typography variant="display3">Wall Patterns</Typography>
 
                     <div className={classes.connection}>

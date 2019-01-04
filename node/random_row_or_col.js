@@ -3,13 +3,13 @@ const utils = require('./utils');
 const { NUM_COLS, NUM_ROWS } = utils.constants;
 
 
-module.exports = async ({ erase, ...options }) => {
+module.exports = async (options) => {
     await utils.init(options);
 
     utils.blackout();
     utils.loop(10, async () => {
 
-        if (erase) utils.blackout();
+        if (options.erase) utils.blackout();
 
         // Should we iterate a row or a column?
         const iterateAcross = Math.random() > 0.5;
